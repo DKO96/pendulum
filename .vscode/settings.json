@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/daniel/Documents/ros2_ws/build/inverted_pendulum",
+        "/home/daniel/Documents/ros2_ws/install/inverted_pendulum/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/daniel/Documents/ros2_ws/build/inverted_pendulum",
+        "/home/daniel/Documents/ros2_ws/install/inverted_pendulum/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}

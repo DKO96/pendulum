@@ -1,7 +1,98 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
 
-    <!-- Example link -->
-    <link name="base_link"></link>
+    <xacro:include filename="inertia_tensor.xacro"/>
+
+    <xacro:property name="arm_length" value="1"/>
+    <xacro:property name="arm_width" value="0.1"/>
+    <xacro:property name="arm_thickness" value="0.01"/>
+    <xacro:property name="arm_mass" value="0.5"/>
+    <xacro:property name="wheel_radius" value="0.2"/>
+    <xacro:property name="wheel_thickness" value="0.02"/>
+    <xacro:property name="wheel_mass" value="0.05"/>
+
+
+    <link name="world"></link>
+
+
+    <!-- base -->
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="base_link"/>        
+    </joint>
+    
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0.075" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.25 0.15" />
+            </geometry>
+            <material name="white">
+                <color rgba="0.2 1 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.25 0.15" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="12" x="0.5" y="0.25" z="0.15">
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+
+    <!-- arm -->
+    <joint name="arm_joint" type="revolute">
+        <origin xyz="0 0.13 0.075" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="arm_link"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+
+    <link name="arm_link">
+        <visual>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+                <box size="${arm_width} ${arm_thickness} ${arm_length}" />
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+                <box size="${arm_width} ${arm_thickness} ${arm_length}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${arm_mass}" x="${arm_width}" y="${arm_thickness}" z="${arm_length}">
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+
+    <!-- wheel -->
+    <joint name="wheel_joint" type="continuous">
+        <origin xyz="0 0.01 1" rpy="-${pi/2} 0 0"/>
+        <parent link="arm_link"/>
+        <child link="wheel_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+            </geometry>
+            <material name="orange"/>
+        </visual>
+    </link>
+
+
+
+
 
 </robot>
